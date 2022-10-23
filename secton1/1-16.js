@@ -1,15 +1,13 @@
 function expt(b, n) {
-  return n === 0
-    ? 1
-    : fast_expt_2(b, b, n-1);
+  return fast_expt_2(1, b, n);
 }
 
 function fast_expt_2(value, b, n) {
   return n===0
     ? value
     : is_even(n)
-    ? fast_expt_2(square(value), b, n/2)
-    : b * fast_expt_2(value, b, n-1);
+    ? fast_expt_2(value, b*b, n/2)
+    : fast_expt_2(value*b, b, n-1);
 }
 
 function is_even(n) {
