@@ -1,36 +1,41 @@
 
+function next(test_divisor) {
+  if(test_divisor === 2) {
+    return 3;
+  }
+  return test_divisor + 2;
+}
+
+
+
 // cited from here
 
 function search_for_primes(a, b) {
-  var now = get_time();
   var count = 0;
   for(var i = a; i < b; i++) {
     if(!timed_prime_test(i)) {
       count++;
     }
-    if(count === 100) {
+    if(count === 3) {
       break;
     }
   }
-
-  const elapsed = get_time() - now;
-  console.log("-------------");
-  console.log("合計：" + elapsed);
 }
 
 function timed_prime_test(n) {
-  //display(n);
+  display(n);
   return start_prime_test(n, get_time());
 }
 
 function start_prime_test(n, start_time) {
   return is_prime(n)
-         ? report_prime(get_time() - start_time, n)
+         ? report_prime(get_time() - start_time)
          : true;
 }
 
-function report_prime(elapsed_time, result) {
-  console.log(result + ": " + elapsed_time);
+function report_prime(elapsed_time) {
+  display(" *** ");
+  display(elapsed_time);
   return false;
 }
 
@@ -42,7 +47,7 @@ function find_divisor(n, test_divisor) {
          ? n
          : divides(test_divisor, n)
          ? test_divisor
-         : find_divisor(n, test_divisor + 1);
+         : find_divisor(n, next(test_divisor));
 }
 function divides(a, b) {
   return b % a === 0;

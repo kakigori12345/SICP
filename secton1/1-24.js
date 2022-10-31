@@ -8,7 +8,7 @@ function search_for_primes(a, b) {
     if(!timed_prime_test(i)) {
       count++;
     }
-    if(count === 100) {
+    if(count === 10000) {
       break;
     }
   }
@@ -19,7 +19,6 @@ function search_for_primes(a, b) {
 }
 
 function timed_prime_test(n) {
-  //display(n);
   return start_prime_test(n, get_time());
 }
 
@@ -34,23 +33,33 @@ function report_prime(elapsed_time, result) {
   return false;
 }
 
-function smallest_divisor(n) {
-  return find_divisor(n, 2);
-}
-function find_divisor(n, test_divisor) {
-  return square(test_divisor) > n
-         ? n
-         : divides(test_divisor, n)
-         ? test_divisor
-         : find_divisor(n, test_divisor + 1);
-}
-function divides(a, b) {
-  return b % a === 0;
+function is_prime(n) {
+  return fast_is_prime(n, Math.floor(Math.log(n)));
 }
 
-function is_prime(n) {
-  return n === smallest_divisor(n);
+function fermat_test(n) {
+  function try_it(a) {
+      return expmod(a, n, n) === a;
+  }
+  return try_it(1 + Math.floor(Math.random() * (n - 1)));
 }
+
+function fast_is_prime(n, times) {
+  return times === 0
+         ? true
+         : fermat_test(n)
+         ? fast_is_prime(n, times - 1)
+         : false;
+}
+
+function expmod(base, exp, m) {
+  return exp === 0
+         ? 1
+         : is_even(exp)
+         ? square(expmod(base, exp / 2, m)) % m
+         : (base * expmod(base, exp - 1, m)) % m;
+}
+
 
 // cited until here
 
@@ -66,5 +75,9 @@ function get_time() {
   return performance.now();
 }
 
+function is_even(n) {
+  return n%2 === 0;
+}
 
-search_for_primes(10000000, 1000000000);
+
+search_for_primes(560, 2822);
