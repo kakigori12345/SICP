@@ -1,3 +1,5 @@
+//2-2 
+
 // point
 function make_point(x, y) {
   return {x_:x, y_:y};
@@ -49,8 +51,46 @@ function stringify(x) {
 }
 
 //------------------
-const p1 = make_point(10, 30);
-const p2 = make_point(50, 60);
-const segment = make_segment(p1, p2);
-const mid_point = midpoint_segment(segment);
-print_point(mid_point);
+{
+  const p1 = make_point(10, 30);
+  const p2 = make_point(50, 60);
+  const segment = make_segment(p1, p2);
+  const mid_point = midpoint_segment(segment);
+  print_point(mid_point);
+}
+
+
+// 2-3
+function make_rectangle(top_left_point, bottom_right_point){
+  return {top_left: top_left_point, bottom_right: bottom_right_point};
+}
+function get_horizontal(rectangle) {
+  return x_point(rectangle.bottom_right) - x_point(rectangle.top_left);
+}
+function get_vertical(rectangle) {
+  return y_point(rectangle.top_left) - y_point(rectangle.bottom_right);
+}
+
+function perimiter(rectangle) {
+  const horizontal = get_horizontal(rectangle);
+  const vertical = get_vertical(rectangle);
+  return 2 * (horizontal + vertical);
+}
+function area(rectangle) {
+  const horizontal = get_horizontal(rectangle);
+  const vertical = get_vertical(rectangle);
+  return horizontal * vertical;
+}
+
+function display_rectangle(rectangle) {
+  console.log("perimiter: " + perimiter(rectangle));
+  console.log("area: " + area(rectangle));
+}
+
+//-------------
+{
+  const p1 = make_point(2, 8);
+  const p2 = make_point(8, 2);
+  const rec = make_rectangle(p1, p2);
+  display_rectangle(rec);
+}
