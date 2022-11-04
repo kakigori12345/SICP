@@ -74,4 +74,16 @@ function append(list1, list2) {
 // 2-17
 console.log('------ 2-17 ------');
 
-
+function last_pair(items) {
+  // ↓これだと最後の値しか返せなかった
+  // return list_ref(items, length(items)-1);
+  
+  if( is_null(tail(items)) ) {
+    return items;
+  }
+  return last_pair(tail(items));
+}
+{
+  const last = last_pair(list(23, 72, 149, 34));
+  console.log(last);
+}
