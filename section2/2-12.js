@@ -91,5 +91,16 @@ function par2(r1, r2) {
                                    div_interval(one, r2)));
 }
 
-console.log(print_interval(par1(pair(4, 6), pair(7, 8))));
-console.log(print_interval(par2(pair(4, 6), pair(7, 8))));
+{
+  const p1 = par1(pair(4, 6), pair(7, 8));
+  const p2 = par2(pair(4, 6), pair(7, 8));
+  console.log(print_interval(p1) + ': ' + percent(p1));
+  console.log(print_interval(p2) + ': ' + percent(p2));
+
+  const p1_p1 = div_interval(p1, p1);
+  const p1_p2 = div_interval(p1, p2);
+  const p2_p2 = div_interval(p2, p2);
+  console.log(print_interval(p1_p1));
+  console.log(print_interval(p1_p2));
+  console.log(print_interval(p2_p2));
+}
