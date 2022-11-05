@@ -84,9 +84,19 @@ function count_leaves(x) {
 
 
 // 2-25
-//console.log('------ 2-25 ------');
+console.log('------ 2-25 ------');
+{
+  const list1 = list(1, 3, list(5, 7), 9)
+  const list2 = list(list(7))
+  const list3 = list(1, list(2, list(3, list(4, list(5, list(6, 7))))))
 
-
+  // list1: [1, [3, [5, [7,null]], [9,null]]]
+  console.log(head(tail(head(tail(tail(list1))))));
+  // list2: 
+  console.log( head(head(list2)) );
+  // list3:
+  console.log( head(tail(head(tail(head(tail(head(tail(head(tail(head(tail(list3)))))))))))) );
+}
 
 // 2-26
 //console.log('------ 2-26 ------');
