@@ -227,3 +227,19 @@ function square(x) {
   display_list(square_list_1(list(1, 2, 3, 4)));
   display_list(square_list_2(list(1, 2, 3, 4)));
 }
+
+
+// 2-23
+console.log('------ 2-23 ------');
+
+function for_each(func, items) {
+  if(is_null(items)) {
+    return;
+  }
+  func(head(items));
+  for_each(func, tail(items));
+}
+
+{
+  for_each(x => console.log(x), list(57, 321, 88));
+}
