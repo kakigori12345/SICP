@@ -160,7 +160,9 @@ function plus_curried(x) {
   return y => x + y;
 }
 function brooks(func, items) {
-  return func(head(items))(head(tail(items)));
+  return is_null(items)
+    ? func
+    : brooks(func(head(items)), tail(items));
 }
 function brooks_curried(items) {
   return brooks(head(items), tail(items));
