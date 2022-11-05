@@ -286,10 +286,29 @@ function display_tree(tree) {
 
 
 // 2-31
-//console.log('------ 2-31 ------');
+console.log('------ 2-31 ------');
+function tree_map(func, tree) {
+  return map(sub_tree => is_pair(sub_tree)
+    ? tree_map(func, sub_tree)
+    : func(sub_tree)
+  , tree);
+}
+function square_tree(tree) {
+  return tree_map(x=>x**2, tree);
+}
 
+{
+  const x = square_tree(list(1,
+                          list(2, list(3, 4), 5), 
+                          list(6, 7)));
+  const y = square_tree(list(1, list(3,4)));
+  console.log('--x--');
+  display_tree(x);
+  console.log('--y--');
+  display_tree(y);
+}
 
 
 // 2-32
-//console.log('------ 2-32 ------');
-
+console.log('------ 2-32 ------');
+console.log('分からなかった');
