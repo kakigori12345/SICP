@@ -49,6 +49,39 @@ function display_list(items) {
 }
 
 
+function last_pair(items) {
+  // ↓これだと最後の値しか返せなかった
+  // return list_ref(items, length(items)-1);
+
+  if( is_null(tail(items)) ) {
+    return items;
+  }
+  return last_pair(tail(items));
+}
+
+{
+  const last = last_pair(list(23, 72, 149, 34));
+  console.log(last);
+}
+
+function remove_tail(items) {
+  if(items === null) {
+    console.log('ERROOOROROR!!!!!!!!!!!!!!!!!!!!!!');
+    return null;
+  }
+
+  return is_null(tail(items))
+    ? null
+    : pair(head(items), remove_tail(tail(items)));
+}
+
+function reverse(items) {
+  return is_null(tail(items))
+    ? pair(head(items), null)
+    : pair( head(last_pair(items)), reverse(remove_tail(items)));
+}
+
+
 function is_pair(item) {
   try {
     const a = head(item);
@@ -61,6 +94,12 @@ function is_pair(item) {
     return false;
   }
   return true;
+}
+
+function append(list1, list2) {
+  return is_null(list1)
+      ? list2
+      : pair(head(list1), append(tail(list1), list2));
 }
 
 function count_leaves(x) {
@@ -101,16 +140,46 @@ console.log('------ 2-25 ------');
 // 2-26
 //console.log('------ 2-26 ------');
 
-
-
 // 2-27
-//console.log('------ 2-27 ------');
+console.log('------ 2-27 ------');
+function deep_reverse(items) {
+  return !is_pair(items)
+    ? pair(items, null)
+    : is_null(tail(items))
+      ? is_pair(head(items))
+        ? deep_reverse(head(items))
+        : head(items)
+      : is_pair(head(items))
+      ? pair( deep_reverse(tail(items)), pair(deep_reverse(head(items)),null) )
+      : pair( deep_reverse(tail(items)), deep_reverse(head(items)) );
+}
 
+{
+  const x = list( list(1,2), list(3,4) );
+  const y = list( list(4,3), list(2,1) );
+
+  console.log(deep_reverse(x));
+  console.log(y);
+}
 
 
 // 2-28
-//console.log('------ 2-28 ------');
+console.log('------ 2-28 ------');
+function fringe(tree) {
+  return is_null(tree)
+    ? null
+    : is_pair(tree)
+      ? append(fringe(head(tree)), fringe(tail(tree)))
+      : list(tree);
+}
 
+{
+  const x = list(list(1, 2), list(3, 4));
+  const xx = list(1,2,3,4,1,2,3,4);
+  display_list(fringe(x));
+  display_list(fringe(list(x, x)));
+  display_list(xx);
+}
 
 
 // 2-29
