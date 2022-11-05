@@ -102,6 +102,13 @@ function append(list1, list2) {
       : pair(head(list1), append(tail(list1), list2));
 }
 
+function map(fun, items) {
+  return is_null(items)
+  ? null
+  : pair(fun(head(items)), 
+  map(fun, tail(items)));
+}
+
 function count_leaves(x) {
   return is_null(x)
          ? 0
@@ -237,12 +244,45 @@ function is_balanced(mobile) {
 
 {
 
-}
+} 
 
 
 // 2-30
-//console.log('------ 2-30 ------');
+console.log('------ 2-30 ------');
 
+function square_tree_1(tree) {
+  return is_null(tree)
+    ? null
+    : !is_pair(tree)
+      ? tree ** 2
+      : pair( square_tree_1(head(tree)),
+              square_tree_1(tail(tree)));
+}
+
+function square_tree_2(tree) {
+  return map( sub_tree =>  is_pair(sub_tree)
+                          ? square_tree_2(sub_tree)
+                          : sub_tree ** 2,
+              tree);
+}
+
+function display_tree(tree) {
+  return map(sub_tree => is_pair(sub_tree)
+    ? display_tree(sub_tree)
+    : console.log(sub_tree)
+  , tree);
+}
+
+{
+  const x = square_tree_2(list(1,
+                          list(2, list(3, 4), 5), 
+                          list(6, 7)));
+  const y = square_tree_2(list(1, list(3,4)));
+  console.log('--x--');
+  display_tree(x);
+  console.log('--y--');
+  display_tree(y);
+}
 
 
 // 2-31
