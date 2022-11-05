@@ -122,3 +122,57 @@ function get_string(items) {
   console.log( get_string(list_) );
   console.log( get_string(reverse_) );
 }
+
+
+// 2-19
+console.log('------ 2-19 ------');
+
+const us_coins = list(50, 25, 10, 5, 1);
+const uk_coins = list(100, 50, 20, 10, 5, 2, 1);
+
+function cc(amount, coin_values) {
+    return amount === 0
+           ? 1
+           : amount < 0 || no_more(coin_values)
+           ? 0
+           : cc(amount, except_first_denomination(coin_values)) +
+             cc(amount - first_denomination(coin_values), coin_values);
+}
+function no_more(items) {
+  return is_null(items);
+}
+function except_first_denomination(items) {
+  return tail(items);
+}
+function first_denomination(items) {
+  return head(items);
+}
+
+{
+  console.log( cc(100, us_coins) );
+}
+
+
+// 2-20
+console.log('------ 2-20 ------');
+
+function plus_curried(x) {	    
+  return y => x + y;
+}
+function brooks(func, items) {
+  return func(head(items))(head(tail(items)));
+}
+function brooks_curried(items) {
+  return brooks(head(items), tail(items));
+}
+
+{
+  console.log(brooks(plus_curried, list(3, 4)));
+  console.log(brooks_curried(list(plus_curried, 3, 4)));
+  const curried_1 = brooks_curried(list(brooks_curried,list(plus_curried, 3, 4)));
+  const curried_2 = brooks_curried( list(brooks_curried,
+                  list(brooks_curried, 
+                  list(plus_curried, 3, 4))));
+  console.log(curried_1);
+  console.log(curried_2);
+}
