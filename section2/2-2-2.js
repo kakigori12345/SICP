@@ -183,8 +183,61 @@ function fringe(tree) {
 
 
 // 2-29
-//console.log('------ 2-29 ------');
+console.log('------ 2-29 ------');
 
+// mobile
+function make_mobile(left, right) {
+  return list(left, right);
+}
+function left_branch(mobile) {
+  return head(mobile);
+}
+function right_branch(mobile) {
+  return left_branch(tail(mobile))
+}
+
+// branch
+function make_branch(length, structure) {
+  return list(length, structure);
+}
+function branch_length(branch) {
+  return head(branch);
+}
+function branch_structure(branch) {
+  return head(tail(branch));
+}
+
+function total_weight(mobile) {
+  const left_st = branch_structure(left_branch(mobile));
+  const right_st = branch_structure(right_branch(mobile));
+
+  const left_w = is_pair(left_st)
+    ? total_weight(left_st)
+    : left_st;
+  const right_w = is_pair(right_st)
+    ? total_weight(right_st)
+    : right_st;
+
+  return left_w + right_w;
+}
+
+function is_balanced(mobile) {
+  const left = left_branch(mobile);
+  const left_st = branch_structure(left);
+  const right = right_branch(mobile);
+  const right_st = branch_structure(right);
+
+  const left_torque = branch_length(left) * 
+    is_pair(left_st) ? total_weight(left_st) : left_st;
+  const right_torque = branch_length(right) * 
+    is_pair(right_st) ? total_weight(right_st) : right_st;
+
+  return left_torque === right_torque;
+}
+
+{
+
+}
 
 
 // 2-30
