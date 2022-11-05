@@ -111,9 +111,12 @@ function reverse(items) {
 }
 
 function get_string(items) {
-  return is_null(items)
-    ? ''
+  return is_null(tail(items))
+    ? head(items)
     : head(items) + ' ' + get_string(tail(items));
+}
+function display_list(items) {
+  console.log("list: [" + get_string(items) + "]");
 }
 
 {
@@ -177,4 +180,50 @@ function brooks_curried(items) {
                   list(plus_curried, 3, 4))));
   console.log(curried_1);
   console.log(curried_2);
+}
+
+
+// mapping over list
+console.log('------ mapping over list ------');
+function map(fun, items) {
+  return is_null(items)
+  ? null
+  : pair(fun(head(items)), 
+  map(fun, tail(items)));
+}
+function scale_list(items, factor) {
+  return map(x => x * factor, items);
+}
+function abs(x) {
+  return x > 0
+    ? x
+    : -x;
+}
+
+
+{
+  display_list( scale_list(list(1, 2, 3, 4, 5), 10) );
+  display_list( map(abs, list(-10, 2.5, -11.6, 17)) );
+  display_list( map(x => x * x, list(1, 2, 3, 4)) );
+}
+
+
+// 2-21
+console.log('------ 2-21 ------');
+
+function square_list_1(items) {
+  return is_null(items) 
+         ? null
+         : pair( square(head(items)), square_list_1(tail(items)));
+}
+function square_list_2(items) {
+ return map(square, items);
+}
+function square(x) {
+  return x * x;
+}
+
+{
+  display_list(square_list_1(list(1, 2, 3, 4)));
+  display_list(square_list_2(list(1, 2, 3, 4)));
 }
