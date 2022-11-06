@@ -122,6 +122,34 @@ function display_tree(tree) {
     : console.log(sub_tree)
   , tree);
 }
+
+// prime test
+function next(test_divisor) {
+  if(test_divisor === 2) {
+    return 3;
+  }
+  return test_divisor + 2;
+}
+function smallest_divisor(n) {
+  return find_divisor(n, 2);
+}
+function find_divisor(n, test_divisor) {
+  return square(test_divisor) > n
+         ? n
+         : divides(test_divisor, n)
+         ? test_divisor
+         : find_divisor(n, next(test_divisor));
+}
+function divides(a, b) {
+  return b % a === 0;
+}
+function is_prime(n) {
+  return n === smallest_divisor(n);
+}
+function square(x) {
+  return x * x;
+}
+
 //-------------------------- ここまで移植 -------------------------------
 
 function accumulate(op, initial, sequence) {
@@ -255,22 +283,104 @@ function matrix_times_matrix(n, m) {
 
 
 // 2-38
-//console.log('------ 2-38 ------');
+console.log('------ 2-38 ------');
 
+function fold_left(op, initial, sequence) {
+  function iter(result, rest) {
+      return is_null(rest)
+             ? result
+             : iter(op(result, head(rest)), 
+                    tail(rest));
+  }
+  return iter(initial, sequence);
+}
+
+const fold_right = accumulate;
+function divide(x, y) {
+    return x / y;
+}
+
+{
+  const x = fold_left(list, null, list(1, 2, 3));
+  console.log(x);
+  display_tree(x);
+
+  console.log('-- divide --');
+  console.log( fold_right(divide, 1, list(1, 2, 3)) );
+  console.log( fold_left(divide, 1, list(1, 2, 3)) );
+
+  console.log('-- list --');
+  console.log( fold_right(list, null, list(1, 2, 3)) );
+  console.log( fold_left(list, null, list(1, 2, 3)) );
+
+  console.log('-- test --');
+  const func = (x, y) => (x + y);
+  console.log( fold_right(func, null, list(1, 2, 3)) );
+  console.log( fold_left(func, null, list(1, 2, 3)) );
+}
 
 
 
 // 2-39
-//console.log('------ 2-39 ------');
+console.log('------ 2-39 ------');
 
+function reverse_1(sequence) {
+  return fold_right((x, y) => append(y, list(x)), null, sequence);
+}
 
+function reverse_2(sequence) {
+  return fold_left((x, y) => pair(y, x), null, sequence);
+}
+
+{
+  const li = list(1,2,3);
+  console.log(reverse_1(li));
+  console.log(reverse_2(li));
+}
 
 
 // 2-40
-//console.log('------ 2-40 ------');
+console.log('------ 2-40 ------');
+function filter(predicate, sequence) {
+  return is_null(sequence)
+         ? null
+         : predicate(head(sequence))
+         ? pair(head(sequence), 
+                filter(predicate, tail(sequence)))
+         : filter(predicate, tail(sequence));
+}
+function is_prime_sum(pair) {
+  return is_prime(head(pair) + head(tail(pair)));
+}
+function prime_sum_pairs(n) {
+  return map(make_pair_sum, 
+             filter(is_prime_sum, unique_pairs(n)));
+}
+function make_pair_sum(pair) {
+  return list(head(pair), head(tail(pair)), 
+              head(pair) + head(tail(pair)));
+}
+function flatmap(f, seq) {
+  return accumulate(append, null, map(f, seq));
+}
+function enumerate_interval(low, high) {
+  return low > high
+         ? null
+         : pair(low,
+                enumerate_interval(low + 1, high));
+}
 
+function unique_pairs(n) {
+  return flatmap(
+    i => map( j => list(i, j), 
+              enumerate_interval(1, i - 1)),
+    enumerate_interval(1, n)
+  )
+}
 
+{
 
+}
 
 // 2-41
 //console.log('------ 2-41 ------');
