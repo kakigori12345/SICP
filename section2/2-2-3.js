@@ -101,13 +101,13 @@ function is_pair(item) {
 //   map(fun, tail(items)));
 // }
 
-function count_leaves(x) {
-  return is_null(x)
-         ? 0
-         : ! is_pair(x)
-         ? 1
-         : count_leaves(head(x)) + count_leaves(tail(x));
-}
+// function count_leaves(x) {
+//   return is_null(x)
+//          ? 0
+//          : ! is_pair(x)
+//          ? 1
+//          : count_leaves(head(x)) + count_leaves(tail(x));
+// }
 
 function display_tree(tree) {
   function map(fun, items) {
@@ -172,15 +172,42 @@ function horner_eval(x, coefficient_sequence) {
 
 
 // 2-35
-//console.log('------ 2-35 ------');
+console.log('------ 2-35 ------');
+function count_leaves(t) {
+  return accumulate(
+    (x,y)=>x+y, 
+    0, 
+    map(
+      x=>is_pair(x) ? count_leaves(x) : 1, 
+      t
+    )
+  );
+}
 
+{
+  console.log( count_leaves(list(1, list(3, 4))) );
+}
 
 
 
 // 2-36
-//console.log('------ 2-36 ------');
+console.log('------ 2-36 ------');
 
+function accumulate_n(op, init, seqs) {
+  function map_ () {
 
+  }
+
+  return is_null(head(seqs))
+         ? null
+         : pair(accumulate(op, init, map(x=>head(x), seqs)), 
+                accumulate_n(op, init, map(x=>tail(x), seqs)));
+}
+
+{
+  const li = list(list(1, 2, 3), list(4, 5, 6), list(7, 8, 9), list(10, 11, 12));
+  console.log( accumulate_n((x,y)=>x+y, 0, li) );
+}
 
 
 // 2-37
