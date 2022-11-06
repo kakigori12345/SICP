@@ -194,10 +194,6 @@ function count_leaves(t) {
 console.log('------ 2-36 ------');
 
 function accumulate_n(op, init, seqs) {
-  function map_ () {
-
-  }
-
   return is_null(head(seqs))
          ? null
          : pair(accumulate(op, init, map(x=>head(x), seqs)), 
@@ -211,8 +207,51 @@ function accumulate_n(op, init, seqs) {
 
 
 // 2-37
-//console.log('------ 2-37 ------');
+console.log('------ 2-37 ------');
+const plus = (x,y) => x + y;
+const times = (x,y) => x * y;
 
+function dot_product(v, w) {
+  return accumulate(plus, 0, accumulate_n(times, 1, list(v, w)));
+}
+function matrix_times_vector(m, v) {
+  return map(row=>dot_product(row,v), m);
+}
+function transpose(mat) {
+  return accumulate_n(pair, null, mat);
+}
+// function matrix_times_matrix(n, m) {
+//   const cols = transpose(m);
+//   return map(row=>matrix_times_vector(cols, row), n);
+// }
+function matrix_times_matrix(n, m) {
+  const cols = transpose(m);
+  return map(x => map(y => dot_product(x, y), cols), n);
+}
+
+{
+  console.log('-- dot --');
+  console.log( dot_product(list(1, 2), list(4,5)) );
+
+  console.log('-- matrrix_times_vector --');
+  const m = list( list(1,2), list(3,4), list(1,1) );
+  const v = list(5,5);
+  console.log( matrix_times_vector(m, v) );
+
+  console.log('-- transpose --');
+  const m2 = list( list(1,2), list(3,4) );
+  console.log(m2);
+  console.log(transpose(m2));
+
+  console.log('-- matrix_times_matrix --');
+  const mxm = matrix_times_matrix(m2, m2)
+  console.log(mxm);
+  display_tree(mxm);
+  const m3 = list( list(10, 10, 10), list(10, 10, 10));
+  const mxm3 = matrix_times_matrix(m, m3);
+  console.log(mxm3);
+  display_tree(mxm3);
+}
 
 
 // 2-38
