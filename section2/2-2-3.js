@@ -369,6 +369,17 @@ function enumerate_interval(low, high) {
          : pair(low,
                 enumerate_interval(low + 1, high));
 }
+function permutations(s) {
+  return is_null(s)             // empty set?
+         ? list(null)           // sequence containing empty set
+         : flatmap(x => map(p => pair(x, p),
+                            permutations(remove(x, s))),
+                   s);
+}
+function remove(item, sequence) {
+  return filter(x => ! (x === item),
+                sequence);
+}
 
 function unique_pairs(n) {
   return flatmap(
@@ -379,12 +390,33 @@ function unique_pairs(n) {
 }
 
 {
-
+  const prime_list = prime_sum_pairs(7);
+  console.log( prime_list );
+  console.log( length(remove(3, list(1, 2, 3, 4, 5))) );
 }
 
 // 2-41
-//console.log('------ 2-41 ------');
+console.log('------ 2-41 ------');
+// function get_triple(s) {
+//   return filter(  x => (x === s), 
+//     permutations(enumerate_interval(1, s-1))
+//   );
+// }
+function unique_triples(n) {
+  return flatmap(i => flatmap(j => map(k => list(i,j,k),
+                                       enumerate_interval(1, j-1)),
+                              enumerate_interval(1, i-1)),
+                 enumerate_interval(1, n));
+}
+function triples_that_sum_to(s, n) {
+  return filter(items => accumulate(plus, 0, items) === s,
+                unique_triples(n));
+}
 
+{
+  const trip = triples_that_sum_to(10, 8);
+  accumulate(x=>console.log(x), null, trip);
+}
 
 
 
