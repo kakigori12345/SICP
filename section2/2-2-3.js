@@ -421,9 +421,50 @@ function triples_that_sum_to(s, n) {
 
 
 // 2-42
-//console.log('------ 2-42 ------');
+console.log('------ 2-42 ------');
+const empty_board = null;
+function queens(board_size) {
+  function queen_cols(k) {
+      return k === 0
+             ? list(empty_board)
+             : filter(positions => is_safe(k, positions),
+                      flatmap(rest_of_queens =>
+                                map(new_row =>
+                                      adjoin_position(new_row, k,
+                                                      rest_of_queens),
+                                    enumerate_interval(1, board_size)),
+                              queen_cols(k - 1)));
+  }
+  return queen_cols(board_size);
+}
+function is_safe(k, positions) {
+  const first_row = head(head(positions));
+  const first_col = tail(head(positions));
+  return accumulate((pos, so_far) => {
+                       const row = head(pos);
+                       const col = tail(pos);
+                       return so_far &&
+                              first_row - first_col !==
+                              row - col &&
+                              first_row + first_col !==
+                              row + col &&
+                              first_row !== row;
+                    },
+                    true, 
+                    tail(positions));
+}
+function adjoin_position(row, col, rest) {
+  return pair(pair(row, col), rest);
+}
 
-
+{
+  const queen = queens(4);
+  console.log( queen );
+  console.log('-- log --');
+  accumulate(x=>console.log(x), null, queen);
+  console.log('-- display --');
+  accumulate(x=>{console.log('---'); display_tree(x);}, null, queen);
+}
 
 
 // 2-43
