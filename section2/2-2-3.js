@@ -458,16 +458,32 @@ function adjoin_position(row, col, rest) {
 }
 
 {
-  const queen = queens(4);
-  console.log( queen );
-  console.log('-- log --');
-  accumulate(x=>console.log(x), null, queen);
-  console.log('-- display --');
-  accumulate(x=>{console.log('---'); display_tree(x);}, null, queen);
+  const queen = queens(8);
+  // console.log( queen );
+  // console.log('-- log --');
+  // accumulate(x=>console.log(x), null, queen);
+  // console.log('-- display --');
+  // accumulate(x=>{console.log('---'); display_tree(x);}, null, queen);
 }
 
 
 // 2-43
-//console.log('------ 2-43 ------');
+console.log('------ 2-43 ------');
+function queens_slow(board_size) {
+  function queen_cols(k) {
+      return k === 0
+             ? list(empty_board)
+             : filter(positions => is_safe(k, positions),
+             flatmap( new_row =>
+                        map(rest_of_queens => 
+                              adjoin_position(new_row, k, rest_of_queens), 
+                            queen_cols(k - 1)), 
+                      enumerate_interval(1, board_size)));
+  }
+  return queen_cols(board_size);
+}
 
+{
+  const queen = queens_slow(8);
+}
 
