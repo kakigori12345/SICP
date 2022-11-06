@@ -160,8 +160,15 @@ function length(sequence) {
 
 
 // 2-34
-//console.log('------ 2-34 ------');
-
+console.log('------ 2-34 ------');
+function horner_eval(x, coefficient_sequence) {
+  return accumulate((this_coeff, higher_terms) => x * higher_terms + this_coeff,
+                    0, 
+                    coefficient_sequence);
+}
+{
+  console.log( horner_eval(2, list(1, 3, 0, 5, 0, 1)) );
+}
 
 
 // 2-35
