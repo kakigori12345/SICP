@@ -1,1 +1,5 @@
-console.log(2**3);
+function test () {
+  console.log('x');
+  requestAnimationFrame(test);
+}
+test();
